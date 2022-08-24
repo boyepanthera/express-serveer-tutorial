@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      #container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .flex-item {
+        margin: 20px 0 50px 0;
+        width: 33.3%;
+        background-color: aqua;
+      }
+    </style>
+    <div id="container">Loading Products...</div>
+
+    <a href="/login">Go to login</a>
+  </body>
+
+  <script>
+    let container = document.getElementById('container');
+    window.onload = function () {
+      fetch('/api/products')
+        .then((response) => response.json())
+        .then((data) => {
+          let cards = data.products.map((product) => {
+            return `<div class='flex-item'>
+              <div>name: ${product.name}</div>
+              <div>price: ${product.price}</div>
+              <div>quantity: ${product.quantity}</div>
+            </div>`;
+          });
+          container.innerHTML = cards.join('');
+        });
+    };
+  </script>
+</html>
